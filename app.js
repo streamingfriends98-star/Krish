@@ -6,16 +6,13 @@
   const messageText=document.getElementById('camera-message-text');
   const retry=document.getElementById('retry-camera');
   const switchBtn=document.getElementById('switch-camera');
-  const motionBtn=document.getElementById('motion-toggle');
-  const motionHint=document.getElementById('motion-hint');
   const canvas=document.getElementById('fx-canvas');
   const ctx=canvas.getContext('2d');
   const cards=[...document.querySelectorAll('.card')];
   const dots=[...document.querySelectorAll('.dot')];
   const current=document.getElementById('current-number');
-  const wrap=document.querySelector('.card-wrap');
   const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let active=0,stream=null,front=false,touchX=null,motionEnabled=false,particles=[],raf=0,lastW=0,lastH=0;
+  let active=0,stream=null,front=false,touchX=null,particles=[],raf=0,lastW=0,lastH=0;
   const clamp=(n,min,max)=>Math.min(max,Math.max(min,n));
 
   function show(n){
@@ -56,44 +53,6 @@
   }
   retry.addEventListener('click',startCamera);
   switchBtn.addEventListener('click',async()=>{front=!front;await startCamera()});
-
-  function setTilt(x,y){
-    const tx=clamp(x,-1,1),ty=clamp(y,-1,1);
-    wrap.style.setProperty('--tilt-x',(tx*5).toFixed(2)+'deg');
-    wrap.style.setProperty('--tilt-y',(-ty*4).toFixed(2)+'deg');
-    const px=(50+tx*35).toFixed(1)+'%',py=(40+ty*30).toFixed(1)+'%';
-    cards.forEach(card=>{card.style.setProperty('--pointer-x',px);card.style.setProperty('--pointer-y',py);card.style.setProperty('--shine-x',(tx*25-32).toFixed(1)+'%')});
-  }
-  function onOrientation(e){
-    if(!motionEnabled)return;
-    const gamma=Number.isFinite(e.gamma)?e.gamma:0;
-    const beta=Number.isFinite(e.beta)?e.beta-35:0;
-    setTilt(gamma/35,beta/45);
-  }
-  async function enableMotion(){
-    if(motionEnabled){motionEnabled=false;window.removeEventListener('deviceorientation',onOrientation);motionBtn.setAttribute('aria-pressed','false');motionBtn.textContent='ENABLE MOTION';setTilt(0,0);motionHint.textContent='Motion response paused';motionHint.classList.remove('dismissed');return}
-    try{
-      if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
-        const permission=await DeviceOrientationEvent.requestPermission();
-        if(permission!=='granted')throw new Error('Motion permission was not granted');
-      }
-      if(!('DeviceOrientationEvent' in window))throw new Error('Device orientation is not supported in this browser');
-      motionEnabled=true;window.addEventListener('deviceorientation',onOrientation,{passive:true});
-      motionBtn.setAttribute('aria-pressed','true');motionBtn.textContent='MOTION ON';
-      motionHint.textContent='Move your phone gently to tilt the card';motionHint.classList.remove('dismissed');
-      window.setTimeout(()=>motionHint.classList.add('dismissed'),3600);
-    }catch(e){
-      motionHint.textContent=e.message.includes('not supported')?'Motion tilt is not supported here; try pointer movement.':'Motion permission unavailable. You can still use touch and swipe.';
-      motionHint.classList.remove('dismissed');window.setTimeout(()=>motionHint.classList.add('dismissed'),4500);
-    }
-  }
-  motionBtn.addEventListener('click',enableMotion);
-  // Desktop fallback and a graceful preview on devices that do not expose orientation data.
-  app.addEventListener('pointermove',e=>{
-    if(motionEnabled||e.pointerType==='touch')return;
-    const r=app.getBoundingClientRect();setTilt(((e.clientX-r.left)/r.width-.5)*2,((e.clientY-r.top)/r.height-.5)*2);
-  },{passive:true});
-  app.addEventListener('pointerleave',()=>{if(!motionEnabled)setTilt(0,0)});
 
   function resizeCanvas(){
     const dpr=Math.min(window.devicePixelRatio||1,1.7),w=window.innerWidth,h=window.innerHeight;
