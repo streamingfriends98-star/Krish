@@ -1,30 +1,34 @@
-KRISH GADHIA — ANIMATED DIGITAL BUSINESS CARD
-=============================================
+KRISH GADHIA — PREMIUM AR-STYLE DIGITAL BUSINESS CARD
+=====================================================
 Files: index.html, style.css, app.js, qr_code_placeholder.png
 
-CARD CONTENT
-Slide 1: Krish Gadhia; Specialist — Marketing; LinkedIn button.
+PRESERVED PROFILE CONTENT
+Slide 1: Krish Gadhia; Specialist — Marketing; tagline; LinkedIn button.
 Slide 2: Social Media, Strategic Partnerships, Brand Management, Brand Communications,
 Consumer Insights; LinkedIn button.
 LinkedIn: https://www.linkedin.com/in/krish-gadhia-b42987117/
+No phone number was supplied, so none has been invented.
 
-FEATURES
-- Live camera background with translucent glass card design.
-- Animated card reveal, animated text, glowing accent line and pulsing live indicator.
-- Two slides, side arrows, swipe gestures and slide dots.
-- Camera retry and front/rear camera switch.
+NEW EFFECTS
+- Premium transparent glass card with moving glass reflection and soft light response.
+- Animated horizontal scanning beam when the experience opens and when switching slides.
+- Lightweight floating mint particles and occasional glints, drawn on a canvas.
+- Phone-motion response: tap ENABLE MOTION, then gently tilt your phone to give the card a subtle 3D tilt.
+- Desktop pointer-movement fallback for previewing the tilt/reflection.
+- Existing live camera background, front/rear camera switch, retry option, slide navigation, swipe gestures and LinkedIn links retained.
+- Honors reduced-motion preference and pauses particle rendering while the tab is hidden.
 
-DEPLOYMENT
-1. Upload all files to HTTPS hosting.
-2. Regenerate QR code to point to your final hosted page URL.
-3. Open on a compatible mobile browser and grant camera access if asked.
+DEPLOYMENT / BROWSER REQUIREMENTS
+1. Upload all files to a site served over HTTPS. Camera and motion APIs generally require a secure context; localhost is suitable for local development.
+2. Open the hosted page on a recent mobile browser and allow camera access when prompted.
+3. Tap ENABLE MOTION. Some iPhones/iOS browsers ask for motion permission after this user gesture. If permission is declined or unavailable, the camera card still works and touch/swipe navigation remains available.
+4. For best results, use a current Safari on iOS or Chrome on Android. Browser settings, OS privacy settings, and embedded in-app browsers may limit camera or motion access.
+5. Generate a QR code that points to the final HTTPS URL after uploading.
 
-NOTE
-No demo phone number was supplied, so this version does not invent one. The LinkedIn profile
-is linked directly. Camera permission may be required by the browser. This is a live camera
-background with transparent overlays, not spatially anchored WebXR AR.
+IMPORTANT AR DISTINCTION
+This is an AR-style camera overlay with device-orientation tilt. It does not detect planes, track a physical surface, or anchor the card to a real-world point. Surface/image-anchored AR requires a compatible WebXR/AR tracking implementation and supported device/browser.
 
-TRANSPARENCY UPDATE
-- Reduced card fill opacity for a more natural live-camera look.
-- Reduced backdrop blur and dark camera overlay.
-- Softened card borders, shadows and side-arrow backgrounds so more of the real scene shows through.
+TROUBLESHOOTING
+- Black/no camera: check HTTPS and browser site permissions; tap Retry camera.
+- No phone tilt: tap ENABLE MOTION and accept the prompt if shown. On some browsers, motion sensors are blocked or unavailable.
+- Camera unavailable in a QR app's built-in browser: open the page in the device's full Safari/Chrome browser.

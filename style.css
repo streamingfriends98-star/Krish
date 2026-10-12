@@ -4,3 +4,23 @@
 .camera-tint{background:linear-gradient(180deg,rgba(4,10,18,.18),rgba(4,10,18,.015) 38%,rgba(4,10,18,.035) 68%,rgba(4,10,18,.22))!important}
 .side-arrow{background:rgba(6,19,29,.42)!important;border-color:rgba(158,244,211,.65)!important;backdrop-filter:blur(3px)!important;-webkit-backdrop-filter:blur(3px)!important}
 .topbar{background:linear-gradient(rgba(11,19,32,.56),transparent)!important}
+
+
+/* PREMIUM REALISTIC AR LAYER — camera remains visible through the glass */
+#fx-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:.8}
+#scan-beam{position:absolute;z-index:4;left:0;right:0;top:-22%;height:2px;pointer-events:none;opacity:0;background:linear-gradient(90deg,transparent,rgba(158,244,211,.12),rgba(190,255,240,.95),rgba(158,244,211,.18),transparent);box-shadow:0 0 12px rgba(158,244,211,.48),0 0 35px rgba(158,244,211,.18)}
+#scan-beam::after{content:"";position:absolute;top:-22px;left:0;right:0;height:25px;background:linear-gradient(180deg,transparent,rgba(158,244,211,.055),transparent)}
+#app.scan-active #scan-beam{opacity:1;animation:sceneScan 1.7s cubic-bezier(.2,.7,.25,1) both}
+.card-wrap{transform:perspective(1100px) rotateX(var(--tilt-y,0deg)) rotateY(var(--tilt-x,0deg));transform-style:preserve-3d;transition:transform .22s ease-out;will-change:transform}
+.card{isolation:isolate;overflow-x:hidden;overflow-y:auto;transform-style:preserve-3d}
+.card::before{content:"";position:absolute;inset:-1px;z-index:0;pointer-events:none;border-radius:inherit;background:linear-gradient(118deg,transparent 12%,rgba(255,255,255,.015) 28%,rgba(190,255,240,.13) 48%,rgba(255,255,255,.025) 58%,transparent 75%);transform:translateX(var(--shine-x,-32%));opacity:.8;mix-blend-mode:screen;transition:transform .32s ease-out}
+.card::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;background:radial-gradient(ellipse at var(--pointer-x,50%) var(--pointer-y,0%),rgba(190,255,240,.11),transparent 48%);opacity:.9}
+.card>*{position:relative;z-index:1}
+.card.active{box-shadow:0 12px 38px rgba(0,0,0,.16),inset 0 0 18px rgba(158,244,211,.04),0 0 0 1px rgba(190,255,240,.035)}
+.motion-toggle{position:absolute;left:12px;top:calc(62px + env(safe-area-inset-top,0px));border:1px solid rgba(158,244,211,.55);border-radius:99px;background:rgba(6,19,29,.42);color:#dffbf2;padding:8px 10px;font-size:8px;font-weight:800;letter-spacing:.09em;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);cursor:pointer}
+.motion-toggle[aria-pressed="true"]{background:rgba(158,244,211,.18);border-color:#9ef4d3;color:#9ef4d3}
+.motion-hint{position:absolute;z-index:5;left:50%;top:calc(96px + env(safe-area-inset-top,0px));transform:translateX(-50%);width:max-content;max-width:calc(100% - 34px);padding:7px 10px;border:1px solid rgba(255,255,255,.15);border-radius:99px;background:rgba(7,17,27,.38);color:rgba(240,255,250,.8);font-size:8px;letter-spacing:.04em;text-align:center;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);transition:opacity .5s;pointer-events:none}
+.motion-hint.dismissed{opacity:0}
+@keyframes sceneScan{0%{top:-3%;opacity:0}10%{opacity:1}85%{opacity:.9}100%{top:103%;opacity:0}}
+@media(max-width:390px){.motion-toggle{top:calc(59px + env(safe-area-inset-top,0px));padding:7px 8px;font-size:7px}.motion-hint{top:calc(88px + env(safe-area-inset-top,0px));font-size:7px}.topbar #camera-status{max-width:85px}}
+@media(prefers-reduced-motion:reduce){#scan-beam,.card::before{animation:none!important;transition:none!important}.card-wrap{transition:none!important}#fx-canvas{opacity:.35}}
