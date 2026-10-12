@@ -23,3 +23,8 @@ NOTE
 No demo phone number was supplied, so this version does not invent one. The LinkedIn profile
 is linked directly. Camera permission may be required by the browser. This is a live camera
 background with transparent overlays, not spatially anchored WebXR AR.
+
+TRANSPARENCY UPDATE
+- Reduced card fill opacity for a more natural live-camera look.
+- Reduced backdrop blur and dark camera overlay.
+- Softened card borders, shadows and side-arrow backgrounds so more of the real scene shows through.
